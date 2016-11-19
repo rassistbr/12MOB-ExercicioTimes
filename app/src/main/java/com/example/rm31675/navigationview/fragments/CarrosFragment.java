@@ -1,9 +1,11 @@
 package com.example.rm31675.navigationview.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.rm31675.navigationview.DetalheActivity;
 import com.example.rm31675.navigationview.R;
 import com.example.rm31675.navigationview.adapter.CarroListAdapter;
 import com.example.rm31675.navigationview.api.CarroAPI;
+import com.example.rm31675.navigationview.listener.OnClickListener;
 import com.example.rm31675.navigationview.model.Carro;
 
 import java.util.List;
@@ -51,6 +55,7 @@ public class CarrosFragment extends Fragment implements Callback<List<Carro>> {
 
         View v = inflater.inflate(R.layout.fragment_carros, container, false);
         rvCarros = (RecyclerView) v.findViewById(R.id.rvCarros);
+        //rvCarros.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rvCarros.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvCarros.setItemAnimator(new DefaultItemAnimator());
         rvCarros.setHasFixedSize(true);
@@ -73,9 +78,20 @@ public class CarrosFragment extends Fragment implements Callback<List<Carro>> {
         call.enqueue(this);
     }
 
+    private OnClickListener onClickListener(){
+        return new OnClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                Intent i = new Intent(getContext(), DetalheActivity.class);
+                i.putExtra("carro", adapter.getItem(position));
+                startActivity(i);
+            }
+        };
+    }
+
     @Override
     public void onResponse(Call<List<Carro>> call, Response<List<Carro>> response) {
-        adapter = new CarroListAdapter(getContext(), response.body());
+        adapter = new CarroListAdapter(getContext(), response.body(), onClickListener());
         rvCarros.setAdapter(adapter);
     }
 

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rm31675.navigationview.R;
+import com.example.rm31675.navigationview.listener.OnClickListener;
 import com.example.rm31675.navigationview.model.Carro;
 import com.squareup.picasso.Picasso;
 
@@ -24,10 +25,12 @@ public class CarroListAdapter extends RecyclerView.Adapter<CarroListAdapter.Carr
 
     private Context context;
     private List<Carro> carros;
+    private OnClickListener clickListener;
 
-    public CarroListAdapter(Context context, List<Carro> carros) {
+    public CarroListAdapter(Context context, List<Carro> carros, OnClickListener clickListener) {
         this.context = context;
         this.carros = carros;
+        this.clickListener = clickListener;
     }
 
     @Override
@@ -37,14 +40,28 @@ public class CarroListAdapter extends RecyclerView.Adapter<CarroListAdapter.Carr
     }
 
     @Override
-    public void onBindViewHolder(CarrosViewHolder holder, int position) {
+    public void onBindViewHolder(final CarrosViewHolder holder, final int position) {
         holder.tvNome.setText(carros.get(position).getNome());
         holder.tvDescricao.setText(carros.get(position).getDescricao());
         Picasso.with(context).load(carros.get(position).getFoto())
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(holder.ivCarro);
+
+        if(clickListener != null){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickListener.onClick(holder.itemView, position);
+                }
+            });
+        }
     }
+
+    public Carro getItem(int position){
+        return carros.get(position);
+    }
+
 
     @Override
     public int getItemCount() {
