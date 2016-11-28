@@ -1,19 +1,17 @@
 package com.example.rm31675.navigationview;
 
-import android.media.Image;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.rm31675.navigationview.model.Carro;
+import com.example.rm31675.navigationview.model.Time;
 import com.squareup.picasso.Picasso;
 
 public class DetalheActivity extends AppCompatActivity {
 
-    private ImageView ivCarro;
+    private ImageView ivTime;
     private CollapsingToolbarLayout ctblNome;
     private TextView tvDescricao;
 
@@ -26,20 +24,18 @@ public class DetalheActivity extends AppCompatActivity {
         if(getIntent()!=null){
 
             tvDescricao = (TextView) findViewById(R.id.tvDescricaoDetalhe);
-            ivCarro = (ImageView) findViewById(R.id.ivFotoDetalhe);
+            ivTime = (ImageView) findViewById(R.id.ivFotoDetalhe);
             ctblNome = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
-            Carro carro = getIntent().getParcelableExtra("carro");
+            Time time = getIntent().getParcelableExtra("time");
 
-            ctblNome.setTitle(carro.getNome());
-            tvDescricao.setText(carro.getDescricao());
-            Picasso.with(getBaseContext()).load(carro.getFoto())
+            ctblNome.setTitle(time.getNome());
+            tvDescricao.setText("Fundado em " + time.getEstado() + ", no ano de " + time.getAnofundacao());
+            Picasso.with(getBaseContext()).load(time.getEscudo())
                     .placeholder(R.mipmap.ic_launcher)
                     .error(R.mipmap.ic_launcher)
-                    .into(ivCarro);
+                    .into(ivTime);
 
-
-            //Toast.makeText(this, carro.getNome(), Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -28,12 +28,12 @@
                 android:layout_height="wrap_content">
                 <!-- Foto do carro -->
                 <ImageView
-                    android:id="@+id/ivCarro"
+                    android:id="@+id/ivTime"
                     android:layout_width="350dp"
                     android:layout_height="150dp"
                     android:padding="16dp"
                     android:scaleType="centerCrop" />
-                <!-- Barra de progresso enquanto carrega a foto -->
+                <!-- Barra de progresso enquanto carrega a escudo -->
                 <ProgressBar
                     android:id="@+id/progressImg"
                     style="@android:style/Widget.ProgressBar.Large"
@@ -54,10 +54,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
                 android:layout_marginTop="20dp"
-                android:background="#523eb7fd"
+                android:background="#b4000000"
                 android:padding="10dp"
-                android:text="Carro"
-                android:textColor="#fafafa"
+                android:text="Time"
+                android:textColor="#ffea00"
                 android:textSize="22sp" />
         </FrameLayout>
 
@@ -71,10 +71,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-
-
-            >
+            android:orientation="horizontal">
 
 
             <TextView
@@ -85,7 +82,7 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:padding="16dp"
-                android:text="Descricao do carro" />
+                android:text="Descricao" />
 
 
         </LinearLayout>

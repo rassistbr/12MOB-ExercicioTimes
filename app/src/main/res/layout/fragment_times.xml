@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.rm31675.navigationview.fragments.CarrosFragment">
+    tools:context="com.example.rm31675.navigationview.fragments.TimesFragment">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/rvCarros"/>
+        android:id="@+id/rvTimes"/>
 
 </FrameLayout>

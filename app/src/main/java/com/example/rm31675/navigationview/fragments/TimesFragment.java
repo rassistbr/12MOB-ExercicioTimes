@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,10 +14,10 @@ import android.widget.Toast;
 
 import com.example.rm31675.navigationview.DetalheActivity;
 import com.example.rm31675.navigationview.R;
-import com.example.rm31675.navigationview.adapter.CarroListAdapter;
-import com.example.rm31675.navigationview.api.CarroAPI;
+import com.example.rm31675.navigationview.adapter.TimeListAdapter;
+import com.example.rm31675.navigationview.api.TimeAPI;
 import com.example.rm31675.navigationview.listener.OnClickListener;
-import com.example.rm31675.navigationview.model.Carro;
+import com.example.rm31675.navigationview.model.Time;
 
 import java.util.List;
 
@@ -31,50 +30,45 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CarrosFragment extends Fragment implements Callback<List<Carro>> {
+public class TimesFragment extends Fragment implements Callback<List<Time>> {
 
     private String tipo;
-    private RecyclerView rvCarros;
-    private CarroListAdapter adapter;
+    private RecyclerView rvTimes;
+    private TimeListAdapter adapter;
 
-    public CarrosFragment() {
-        // Required empty public constructor
+    public TimesFragment() {
     }
 
     @Override
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
-        if(getArguments() != null){
-            this.tipo = getArguments().getString("tipo");
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_carros, container, false);
-        rvCarros = (RecyclerView) v.findViewById(R.id.rvCarros);
-        //rvCarros.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        rvCarros.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvCarros.setItemAnimator(new DefaultItemAnimator());
-        rvCarros.setHasFixedSize(true);
+        View v = inflater.inflate(R.layout.fragment_times, container, false);
+        rvTimes = (RecyclerView) v.findViewById(R.id.rvTimes);
+        rvTimes.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvTimes.setItemAnimator(new DefaultItemAnimator());
+        rvTimes.setHasFixedSize(true);
         return v;
 
     }
 
     public void onActivityCreated(Bundle bundle){
         super.onActivityCreated(bundle);
-        loadCarros();
+        loadTimes();
     }
 
-    private void loadCarros() {
+    private void loadTimes() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://www.heiderlopes.com.br")
+                .baseUrl("http://www.mocky.io")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        CarroAPI api = retrofit.create(CarroAPI.class);
-        Call<List<Carro>> call = api.findBy(tipo);
+        TimeAPI api = retrofit.create(TimeAPI.class);
+        Call<List<Time>> call = api.findBy();
         call.enqueue(this);
     }
 
@@ -83,20 +77,20 @@ public class CarrosFragment extends Fragment implements Callback<List<Carro>> {
             @Override
             public void onClick(View v, int position) {
                 Intent i = new Intent(getContext(), DetalheActivity.class);
-                i.putExtra("carro", adapter.getItem(position));
+                i.putExtra("time", adapter.getItem(position));
                 startActivity(i);
             }
         };
     }
 
     @Override
-    public void onResponse(Call<List<Carro>> call, Response<List<Carro>> response) {
-        adapter = new CarroListAdapter(getContext(), response.body(), onClickListener());
-        rvCarros.setAdapter(adapter);
+    public void onResponse(Call<List<Time>> call, Response<List<Time>> response) {
+        adapter = new TimeListAdapter(getContext(), response.body(), onClickListener());
+        rvTimes.setAdapter(adapter);
     }
 
     @Override
-    public void onFailure(Call<List<Carro>> call, Throwable t) {
+    public void onFailure(Call<List<Time>> call, Throwable t) {
         Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

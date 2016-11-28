@@ -1,7 +1,6 @@
 package com.example.rm31675.navigationview.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,42 +10,40 @@ import android.widget.TextView;
 
 import com.example.rm31675.navigationview.R;
 import com.example.rm31675.navigationview.listener.OnClickListener;
-import com.example.rm31675.navigationview.model.Carro;
+import com.example.rm31675.navigationview.model.Time;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
 /**
  * Created by rm31675 on 19/11/2016.
  */
-public class CarroListAdapter extends RecyclerView.Adapter<CarroListAdapter.CarrosViewHolder>{
+public class TimeListAdapter extends RecyclerView.Adapter<TimeListAdapter.TimesViewHolder>{
 
     private Context context;
-    private List<Carro> carros;
+    private List<Time> times;
     private OnClickListener clickListener;
 
-    public CarroListAdapter(Context context, List<Carro> carros, OnClickListener clickListener) {
+    public TimeListAdapter(Context context, List<Time> times, OnClickListener clickListener) {
         this.context = context;
-        this.carros = carros;
+        this.times = times;
         this.clickListener = clickListener;
     }
 
     @Override
-    public CarrosViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.carro_item, parent, false);
-        return new CarrosViewHolder(v);
+    public TimesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(context).inflate(R.layout.time_item, parent, false);
+        return new TimesViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(final CarrosViewHolder holder, final int position) {
-        holder.tvNome.setText(carros.get(position).getNome());
-        holder.tvDescricao.setText(carros.get(position).getDescricao());
-        Picasso.with(context).load(carros.get(position).getFoto())
+    public void onBindViewHolder(final TimesViewHolder holder, final int position) {
+        holder.tvNome.setText(times.get(position).getNome());
+        holder.tvDescricao.setText("Fundado em " + times.get(position).getEstado() + ", no ano de " + times.get(position).getAnofundacao());
+        Picasso.with(context).load(times.get(position).getEscudo())
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
-                .into(holder.ivCarro);
+                .into(holder.ivTime);
 
         if(clickListener != null){
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -58,28 +55,28 @@ public class CarroListAdapter extends RecyclerView.Adapter<CarroListAdapter.Carr
         }
     }
 
-    public Carro getItem(int position){
-        return carros.get(position);
+    public Time getItem(int position){
+        return times.get(position);
     }
 
 
     @Override
     public int getItemCount() {
-        return carros.size();
+        return times.size();
     }
 
-    public static class CarrosViewHolder extends RecyclerView.ViewHolder{
+    public static class TimesViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvNome;
         TextView tvDescricao;
-        ImageView ivCarro;
+        ImageView ivTime;
 
-        public CarrosViewHolder(View itemView) {
+        public TimesViewHolder(View itemView) {
             super(itemView);
 
             tvNome = (TextView) itemView.findViewById(R.id.tvCarro);
             tvDescricao = (TextView) itemView.findViewById(R.id.tvDescricao);
-            ivCarro = (ImageView) itemView.findViewById(R.id.ivCarro);
+            ivTime = (ImageView) itemView.findViewById(R.id.ivTime);
         }
     }
 }
